@@ -24,4 +24,8 @@ public class LegendRepository {
                 .orElse(null);
         return selectedLegendById;
     }
+
+    public void addLegend(Legend newLegend) {
+        legendDatabase.add(newLegend);
+    }
 }
