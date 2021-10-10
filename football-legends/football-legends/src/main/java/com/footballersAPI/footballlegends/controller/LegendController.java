@@ -1,12 +1,12 @@
 package com.footballersAPI.footballlegends.controller;
 
 import com.footballersAPI.footballlegends.entity.Legend;
+import com.footballersAPI.footballlegends.repository.ILegendRepository;
 import com.footballersAPI.footballlegends.repository.LegendRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -33,8 +33,8 @@ public class LegendController {
     }
 
         // CREATE ROUTE - create a new legend
-        // POST /addlegend
-    @PostMapping("/addlegend")
+        // POST /add/legend
+    @PostMapping("/add/legend")
     public ResponseEntity<Legend> createLegend(@RequestBody Legend newLegend) {
         repository.addLegend(newLegend);
         return ResponseEntity
@@ -42,4 +42,23 @@ public class LegendController {
                 .body(newLegend);
     }
 
+        // UPDATE ROUTE - edit an existing legend using its id
+        // PUT or PATCH /edit/legend/{id}
+    @PutMapping("/edit/legend/{id}")
+    public ResponseEntity<Legend> updateLegendById(@PathVariable int id, @RequestBody Legend updatedLegend) {
+        Legend editedLegend = repository.editLegendById(id, updatedLegend);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(editedLegend);
+    }
+
+    // DELETE ROUTE - Remove a legend with a specific id
+    // DELETE /legend/{id}
+    @DeleteMapping("/remove/legend/{id}")
+    public ResponseEntity<Boolean> deleteLegend(@PathVariable int id) {
+        Boolean response = repository.removeLegendById(id);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(response);
+    }
 }
