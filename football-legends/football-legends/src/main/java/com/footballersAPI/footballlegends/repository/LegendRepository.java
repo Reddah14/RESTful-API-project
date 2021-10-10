@@ -1,6 +1,7 @@
 package com.footballersAPI.footballlegends.repository;
 
 import com.footballersAPI.footballlegends.entity.Legend;
+import com.footballersAPI.footballlegends.exceptions.ResourceNotFoundException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +25,7 @@ public class LegendRepository {
                 .filter((legend) -> legend.getId() == id)
                 .findFirst()
                 .orElse(null);
+        if (selectedLegendById == null) throw new ResourceNotFoundException("Not able to find the legend with id: " + id);
         return selectedLegendById;
     }
 
@@ -43,6 +45,7 @@ public class LegendRepository {
         legendDatabase.set(index, updatedLegend);
         return updatedLegend;
     }
+
 
     // method for remove route
     public Boolean removeLegendById(int id) {
