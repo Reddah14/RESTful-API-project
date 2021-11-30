@@ -55,8 +55,8 @@ public class LegendController {
     // DELETE ROUTE - Remove a legend with a specific id
     // DELETE /legend/{id}
     @DeleteMapping("/remove/legend/{id}")
-    public ResponseEntity<Boolean> deleteLegend(@PathVariable int id) {
-        Boolean response = repository.removeLegendById(id);
+    public ResponseEntity<Legend> deleteLegend(@PathVariable int id) {
+        Legend response = repository.removeLegendById(id);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(response);

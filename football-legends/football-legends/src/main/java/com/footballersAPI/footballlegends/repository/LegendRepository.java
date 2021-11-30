@@ -1,6 +1,7 @@
 package com.footballersAPI.footballlegends.repository;
 
 import com.footballersAPI.footballlegends.entity.Legend;
+import com.footballersAPI.footballlegends.exceptions.ResourceIsATeaPot;
 import com.footballersAPI.footballlegends.exceptions.ResourceNotFoundException;
 
 import java.util.ArrayList;
@@ -36,27 +37,24 @@ public class LegendRepository {
     }
 
     // method for update route
-    public Legend editLegendById(int id, Legend updatedLegend) {
-        //finding legend to be updated
-        Legend currentLegend = findLegendById(id);
-        //finding index of legend to be updated
-        int index = legendDatabase.indexOf(currentLegend);
-        //setting in dB updatedLegend at selected index
-        legendDatabase.set(index, updatedLegend);
+    public Legend editLegendById (int id, Legend updatedLegend) {
+        try {
+            //finding legend to be updated
+            Legend currentLegend = findLegendById(id);
+            //finding index of legend to be updated
+            int index = legendDatabase.indexOf(currentLegend);
+            //setting in dB updatedLegend at selected index
+            legendDatabase.set(index, updatedLegend);
+        } catch (Exception e) {
+            throw new ResourceIsATeaPot("Could not find the Legend to be updated with id: " + id);
+        }
         return updatedLegend;
     }
 
-
     // method for remove route
-    public Boolean removeLegendById(int id) {
-        Boolean result = false;
+    public Legend removeLegendById(int id) {
         Legend legendToBeRemoved = findLegendById(id);
-        try {
-            legendDatabase.remove(legendToBeRemoved);
-            result = true;
-        } catch (Exception e) {
-            result = false;
-        }
-        return result;
+        legendDatabase.remove(legendToBeRemoved);
+        return legendToBeRemoved;
     }
 }
